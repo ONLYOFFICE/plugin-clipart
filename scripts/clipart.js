@@ -87,7 +87,6 @@ var  Ps;
 
             if (window.XMLHttpRequest)
             {
-                //Gecko-совместимые браузеры, Safari, Konqueror
                 Request = new XMLHttpRequest();
             }
             else if (window.ActiveXObject)
@@ -113,10 +112,8 @@ var  Ps;
 
         function SendRequest(r_method, r_path, r_args)
         {
-            //Создаём запрос
             var Request = CreateRequest();
 
-            //Проверяем существование запроса
             if (!Request)
             {
                 return;
@@ -124,7 +121,6 @@ var  Ps;
     
             Request.onreadystatechange = function()
             {
-                //Если обмен данными завершен
                 if (Request.readyState == 4)
                 {
                     if (Request.status == 200)
@@ -186,25 +182,18 @@ var  Ps;
 
             }
 
-            //Проверяем, если требуется сделать GET-запрос
             if (r_method.toLowerCase() == "get" && r_args.length > 0)
             r_path += "?" + r_args;
 
-            //Инициализируем соединение
             Request.open(r_method, r_path, true);
 
             if (r_method.toLowerCase() == "post")
             {
-                //Если это POST-запрос
-
-                //Устанавливаем заголовок
                 Request.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=utf-8");
-                //Посылаем запрос
                 Request.send(r_args);
             }
             else
             {
-                //Если это GET-запрос, посылаем нуль-запрос
                 Request.send(null);
             }
 
