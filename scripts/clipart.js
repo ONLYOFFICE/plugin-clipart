@@ -175,11 +175,6 @@ var  Ps;
                         oContainer.append(oParagraph);
                     }
                 }
-                else
-                {
-                    console.log("Downloading...")
-                }
-
             }
 
             if (r_method.toLowerCase() == "get" && r_args.length > 0)
