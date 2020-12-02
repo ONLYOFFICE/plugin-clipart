@@ -1,6 +1,26 @@
 var  Ps;
-(function(window, undefined) {
 
+
+(function(window, undefined) {
+	
+	var displayNoneClass = "display-none";
+	var blurClass = "blur";
+	var waitForLoad = false;
+
+	function showLoader(elements, show) {
+        switchClass(elements.loader, displayNoneClass, !show);
+        switchClass(elements.contentHolder, blurClass, show);
+    }
+
+	function switchClass(el, className, add) {
+        if (add) {
+            el.classList.add(className);
+        } else {
+            el.classList.remove(className);
+        }
+    }
+	
+	
     window.oncontextmenu = function(e)
     {
         if (e.preventDefault)
@@ -66,7 +86,13 @@ var  Ps;
     }
     
     window.Asc.plugin.init = function () {
-        var container = document.getElementById('scrollable-container-id');
+		
+		var elements = {
+        loader: document.getElementById("loader"),
+        contentHolder: document.getElementById("main-container-id")
+		};
+	
+		var container = document.getElementsByClassName ('scrollable-container-id');
         Ps = new PerfectScrollbar('#scrollable-container-id', {});
         var nAmount = 20;//Count images on page
         var sLastQuery = 'play';
@@ -123,6 +149,7 @@ var  Ps;
             {
                 if (Request.readyState == 4)
                 {
+					showLoader(elements, false);
                     if (Request.status == 200)
                     {
                         var parser = new DOMParser();
@@ -175,6 +202,8 @@ var  Ps;
                         oContainer.append(oParagraph);
                     }
                 }
+				else
+					showLoader(elements, true);
             }
 
             if (r_method.toLowerCase() == "get" && r_args.length > 0)
