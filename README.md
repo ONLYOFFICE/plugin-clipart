@@ -2,7 +2,7 @@
 
 Adds pictures to a document from an open picture collection. 
 
-The plugin uses [Open Clipart](http://openclipart.org/) is an online media collection of more than 160 000 vectorial graphics, entirely in the public domain, and service [CORS Anywhere](https://cors-anywhere.herokuapp.com) which adds CORS headers to the request.
+The plugin uses [Open Clipart](http://openclipart.org/) is an online media collection of more than 160 000 vectorial graphics, entirely in the public domain, and service [CORS Anywhere](https://github.com/Rob--W/cors-anywhere/) which adds CORS headers to the request.
 
 ## How to use
 
