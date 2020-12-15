@@ -149,7 +149,6 @@ var  Ps;
             {
                 if (Request.readyState == 4)
                 {
-					showLoader(elements, false);
                     if (Request.status == 200)
                     {
                         var parser = new DOMParser();
@@ -188,6 +187,7 @@ var  Ps;
 
                             img.src = $(docImgs[imgIdx]).attr('src');
                         }
+                        showLoader(elements, false);
                     }
                     else
                     {
@@ -261,17 +261,17 @@ var  Ps;
         });
         $('#navigation-prev-page-id').click(function(e){
             if(nLastPage > 1){
-                loadClipArtPage(nLastPage - 1, sLastQuery);
+                loadClipArtPage(Number(nLastPage) - 1, sLastQuery);
             }
         });
         $('#navigation-next-page-id').click(function(e){
             if(nLastPage < nLastPageCount){
-                loadClipArtPage(nLastPage + 1, sLastQuery);
+                loadClipArtPage(Number(nLastPage) + 1, sLastQuery);
             }
         });
         $('#navigation-last-page-id').click(function(e){
             if(nLastPage < nLastPageCount){
-                loadClipArtPage(nLastPageCount, sLastQuery);
+                loadClipArtPage(Number(nLastPageCount), sLastQuery);
             }
         });
 
