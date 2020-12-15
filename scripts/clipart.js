@@ -390,13 +390,33 @@ var  Ps;
                         $(this).css('opacity', '1');
                     }
                 );
-                oImgElement.click(
+
+                var timer;
+                oImgElement.dblclick(
                     function (e) {
-                        var oElement = imgsInfo[parseInt(this.dataset.index)];
-                        window.Asc.plugin.info.recalculate = true;
-                        window.Asc.plugin.executeCommand("command", createScript(oElement, this.naturalWidth, this.naturalHeight));
+                        //e.preventDefault();
+                        clearTimeout(timer);
+                        timer = null;
+                        return;
                     }
                 );
+                oImgElement.click(
+                    function (e) {
+                        var img = this;
+                        window.Asc.plugin.info.recalculate = true;
+
+                        timer = setTimeout(function() {
+                            if (timer) {
+                                var oElement = imgsInfo[parseInt(img.dataset.index)];
+                                window.Asc.plugin.executeCommand("command", createScript(oElement, img.naturalWidth, img.naturalHeight));
+                            }
+
+                        }, 250);
+
+
+                    }
+                );
+
                 oImgElement.on('dragstart', function(event) { event.preventDefault(); });
                 
                 oDivElement.append(oImgElement);
