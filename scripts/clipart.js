@@ -167,6 +167,9 @@ var  Ps;
                             })
                         updateNavigation(current_page, allPages);
 
+                        if (imgCount === 0)
+                            showLoader(elements, false);
+
                         for (var imgIdx = 0; imgIdx < imgCount; imgIdx++)
                         {
                             var img = new Image();
@@ -188,9 +191,6 @@ var  Ps;
                             }
                             img.src = $(docImgs[imgIdx]).attr('src');
                         }
-
-                        if (imgCount === 0)
-                            showLoader(elements, false);
                     }
                     else
                     {
