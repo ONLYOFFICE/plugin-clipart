@@ -1,6 +1,5 @@
 var  Ps;
 
-
 (function(window, undefined) {
 	
 	var displayNoneClass = "display-none";
@@ -19,8 +18,7 @@ var  Ps;
             el.classList.remove(className);
         }
     }
-	
-	
+
     window.oncontextmenu = function(e)
     {
         if (e.preventDefault)
@@ -158,6 +156,7 @@ var  Ps;
                         var pagesInfo = $('.page-link', doc)[1].innerText.split(" / ");
                         var current_page = pagesInfo[0];
                         var allPages = pagesInfo[1];
+                        var imgCount = docImgs.length;
                         container = document.getElementById('scrollable-container-id');
                         container.scrollTop = 0;
                         Ps.update();
@@ -181,13 +180,14 @@ var  Ps;
 
                                 imgsInfo.push(imgInfo);
 
-                                if (imgsInfo.length == docImgs.length)
+                                if (imgsInfo.length == imgCount)
                                     fillTableFromResponse(imgsInfo);
                             };
-
+                            img.onerror = function() {
+                                imgCount--;
+                            }
                             img.src = $(docImgs[imgIdx]).attr('src');
                         }
-                        showLoader(elements, false);
                     }
                     else
                     {
@@ -348,8 +348,8 @@ var  Ps;
                 $(oDivElement).addClass('noselect');
                 oDivElement.css('margin-left', nGap + 'px');
                 oDivElement.css('margin-right', nGap + 'px');
-
                 oDivElement.css('margin-bottom', nVertGap + 'px');
+
                 var oImageTh = {
                     width : imgsInfo[i]["Width"],
                     height : imgsInfo[i]["Height"]
@@ -359,10 +359,8 @@ var  Ps;
                 var oImgElement = $('<img>');
                 var nWidth = (oImageTh.width * fCoeff) >> 0;
                 var nHeight = (oImageTh.height * fCoeff) >> 0;
-                if(nWidth === 0 || nHeight === 0){
+                if (nWidth === 0 || nHeight === 0) {
                      oImgElement.on('load', function(event) {
-
-
                         var nMaxSize = Math.max(this.naturalWidth, this.naturalHeight);
                         var fCoeff = nImageWidth/nMaxSize;
                         var nWidth = (this.naturalWidth * fCoeff) >> 0;
@@ -410,10 +408,7 @@ var  Ps;
                                 var oElement = imgsInfo[parseInt(img.dataset.index)];
                                 window.Asc.plugin.executeCommand("command", createScript(oElement, img.naturalWidth, img.naturalHeight));
                             }
-
                         }, 250);
-
-
                     }
                 );
 
@@ -423,6 +418,7 @@ var  Ps;
                 oContainer.append(oDivElement);
             }
             updateScroll();
+            showLoader(elements, false);
         }
 
         function updateScroll(){
