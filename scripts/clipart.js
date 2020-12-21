@@ -105,35 +105,6 @@ var  Ps;
             updateNavigation();
         });
 
-        function CreateRequest()
-        {
-            var Request = false;
-
-            if (window.XMLHttpRequest)
-            {
-                Request = new XMLHttpRequest();
-            }
-            else if (window.ActiveXObject)
-            {
-                //Internet explorer
-                try
-                {
-                    Request = new ActiveXObject("Microsoft.XMLHTTP");
-                }    
-                catch (CatchException)
-                {
-                    Request = new ActiveXObject("Msxml2.XMLHTTP");
-                }
-            }
- 
-            if (!Request)
-            {
-                alert("Unable to create the XMLHttpRequest");
-            }
-    
-            return Request;
-        }
-
         function SendRequest(r_method, r_path, r_args)
         {
             var Request = CreateRequest();
@@ -245,8 +216,62 @@ var  Ps;
         }
 
         function loadClipArtPage(nIndex, sQuery) {
-            SendRequest("GET", 'https://cors-anywhere.herokuapp.com/https://openclipart.org/search/?query=' + sQuery + '&p=' + nIndex,"");
+            //SendRequest("GET", 'https://cors-anywhere.herokuapp.com/https://openclipart.org/search/?query=' + sQuery + '&p=' + nIndex,"");
+             $.ajax({
+                method: 'GET',
+                headers : { "apikey" : "QJWaUurTDttvsifqkKaz"},
+                url: 'https://cors-anywhere.herokuapp.com/https://freesvgclipart.com/wp-json/clipart/api?page=' + nIndex + '&num=24' +'&query=' + sQuery,
+                dataType: 'json'
+            }).success(function (oResponse) {
+                container = document.getElementById('scrollable-container-id');
+                container.scrollTop = 0;
+                Ps.update();
+                updateNavigation(oResponse.page, oResponse.pages);
+
+                var imgCount = oResponse.items.length;
+                var imgsInfo = [];
+
+                function loadImgs(sUrl)
+                {
+                    var img = new Image();
+                    img.onload = function() {
+                        var imgInfo = {
+                        "Width": this.width,
+                        "Height": this.height,
+                        "Src": this.src,
+                        "HTML": this.outerHTML
+                        };
+
+                        imgsInfo.push(imgInfo);
+
+                        if (imgsInfo.length == imgCount)
+                            fillTableFromResponse(imgsInfo);
+                    };
+                    img.onerror = function() {
+                        imgCount--;
+                    }
+                    img.src = sUrl;
+                }
+
+                for (var nUrl = 0; nUrl < oResponse.items.length; nUrl++) {
+                    //loadImgs(oResponse.items[nUrl].pngurl[oResponse.items[0].pngurl.length - 1]);
+                    loadImgs(oResponse.items[nUrl].pngurl[0]);
+                }
+                fillTableFromResponse(imgsInfo);
+            }).error(function(){
+
+				container = document.getElementById('scrollable-container-id');
+                container.scrollTop = 0;
+                Ps.update();
+                updateNavigation(0, 0);
+				var oContainer = $('#preview-images-container-id');
+				oContainer.empty();
+				var oParagraph = $('<p style=\"font-size: 15px; font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\">Error has occured when loading data.</p>');
+
+                oContainer.append(oParagraph);
+				});
         }
+
 
         $('#search-form-id').submit(function (e) {
             sLastQuery = $('#search-id').val();
