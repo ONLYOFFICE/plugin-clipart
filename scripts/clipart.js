@@ -1,14 +1,15 @@
 var  Ps;
 
 (function(window, undefined) {
-	
+
 	var displayNoneClass = "display-none";
 	var blurClass = "blur";
 	var waitForLoad = false;
 
-	function showLoader(elements, show) {
-        switchClass(elements.loader, displayNoneClass, !show);
-        switchClass(elements.contentHolder, blurClass, show);
+	function show(elements, show) {
+
+       switchClass(elements.contentHolder, blurClass, show);
+       switchClass(elements.loader, displayNoneClass, !show);
     }
 
 	function switchClass(el, className, add) {
@@ -86,10 +87,10 @@ var  Ps;
     window.Asc.plugin.init = function () {
 		
 		var elements = {
-        loader: document.getElementById("loader"),
+        loader: document.getElementById("loader-container"),
         contentHolder: document.getElementById("main-container-id")
 		};
-	
+
 		var container = document.getElementsByClassName ('scrollable-container-id');
         Ps = new PerfectScrollbar('#scrollable-container-id', {});
         var nAmount = 20;//Count images on page
@@ -168,7 +169,7 @@ var  Ps;
                         updateNavigation(current_page, allPages);
 
                         if (imgCount === 0)
-                            showLoader(elements, false);
+                            show(elements, false);
 
                         for (var imgIdx = 0; imgIdx < imgCount; imgIdx++)
                         {
@@ -206,7 +207,7 @@ var  Ps;
                     }
                 }
 				else
-					showLoader(elements, true);
+					show(elements, true);
             }
 
             if (r_method.toLowerCase() == "get" && r_args.length > 0)
@@ -415,7 +416,7 @@ var  Ps;
                 oContainer.append(oDivElement);
             }
             updateScroll();
-            showLoader(elements, false);
+            show(elements, false);
         }
 
         function updateScroll(){
