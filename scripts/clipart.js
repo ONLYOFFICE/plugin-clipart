@@ -6,10 +6,10 @@ var  Ps;
 	var blurClass = "blur";
 	var waitForLoad = false;
 
-	function show(elements, show) {
+	function showLoader(elements, bShow) {
 
-       switchClass(elements.contentHolder, blurClass, show);
-       switchClass(elements.loader, displayNoneClass, !show);
+       switchClass(elements.contentHolder, blurClass, bShow);
+       switchClass(elements.loader, displayNoneClass, !bShow);
     }
 
 	function switchClass(el, className, add) {
@@ -169,7 +169,7 @@ var  Ps;
                         updateNavigation(current_page, allPages);
 
                         if (imgCount === 0)
-                            show(elements, false);
+                            showLoader(elements, false);
 
                         for (var imgIdx = 0; imgIdx < imgCount; imgIdx++)
                         {
@@ -207,7 +207,7 @@ var  Ps;
                     }
                 }
 				else
-					show(elements, true);
+					showLoader(elements, true);
             }
 
             if (r_method.toLowerCase() == "get" && r_args.length > 0)
@@ -416,7 +416,7 @@ var  Ps;
                 oContainer.append(oDivElement);
             }
             updateScroll();
-            show(elements, false);
+            showLoader(elements, false);
         }
 
         function updateScroll(){
