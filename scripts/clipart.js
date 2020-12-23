@@ -86,7 +86,7 @@ var  Ps;
     window.Asc.plugin.init = function () {
 		
 		var elements = {
-        loader: document.getElementById("loader"),
+        loader: document.getElementById("loader-container"),
         contentHolder: document.getElementById("main-container-id")
 		};
 	
@@ -104,99 +104,6 @@ var  Ps;
             updateScroll();
             updateNavigation();
         });
-
-        function SendRequest(r_method, r_path, r_args)
-        {
-            var Request = CreateRequest();
-
-            if (!Request)
-            {
-                return;
-            }
-    
-            Request.onreadystatechange = function()
-            {
-                if (Request.readyState == 4)
-                {
-                    if (Request.status == 200)
-                    {
-                        var parser = new DOMParser();
-                        var doc = parser.parseFromString(Request.responseText, "text/html");
-                        var docImgs = $('.artwork img', doc);
-                        var imgsInfo = [];
-                        var pagesInfo = $('.page-link', doc)[1].innerText.split(" / ");
-                        var current_page = pagesInfo[0];
-                        var allPages = pagesInfo[1];
-                        var imgCount = docImgs.length;
-                        container = document.getElementById('scrollable-container-id');
-                        container.scrollTop = 0;
-                        Ps.update();
-
-                        //setting correct url for each image
-                        docImgs.each(function() {
-                            $(this).attr("src", "https://openclipart.org" + $(this).attr("src"))
-                            })
-                        updateNavigation(current_page, allPages);
-
-                        if (imgCount === 0)
-                            showLoader(elements, false);
-
-                        for (var imgIdx = 0; imgIdx < imgCount; imgIdx++)
-                        {
-                            var img = new Image();
-                            img.onload = function() {
-                                var imgInfo = {
-                                "Width": this.width,
-                                "Height": this.height,
-                                "Src": this.src,
-                                "HTML": this.outerHTML
-                                };
-
-                                imgsInfo.push(imgInfo);
-
-                                if (imgsInfo.length == imgCount)
-                                    fillTableFromResponse(imgsInfo);
-                            };
-                            img.onerror = function() {
-                                imgCount--;
-                            }
-                            img.src = $(docImgs[imgIdx]).attr('src');
-                        }
-                    }
-                    else
-                    {
-                        container = document.getElementById('scrollable-container-id');
-                        container.scrollTop = 0;
-                        Ps.update();
-                        updateNavigation(0, 0);
-                        var oContainer = $('#preview-images-container-id');
-                        oContainer.empty();
-                        var oParagraph = $('<p style=\"font-size: 15px; font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\">Error has occured when loading data.</p>');
-
-                        oContainer.append(oParagraph);
-                    }
-                }
-				else
-					showLoader(elements, true);
-            }
-
-            if (r_method.toLowerCase() == "get" && r_args.length > 0)
-            r_path += "?" + r_args;
-
-            Request.open(r_method, r_path, true);
-
-            if (r_method.toLowerCase() == "post")
-            {
-                Request.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=utf-8");
-                Request.send(r_args);
-            }
-            else
-            {
-                Request.send(null);
-            }
-
-            return Request
-        }
 
         function updatePaddings(){
             var oContainer = $('#preview-images-container-id');
@@ -216,10 +123,10 @@ var  Ps;
         }
 
         function loadClipArtPage(nIndex, sQuery) {
-            //SendRequest("GET", 'https://cors-anywhere.herokuapp.com/https://openclipart.org/search/?query=' + sQuery + '&p=' + nIndex,"");
-             $.ajax({
+            showLoader(elements, true);
+            $.ajax({
                 method: 'GET',
-                headers : { "apikey" : "QJWaUurTDttvsifqkKaz"},
+                headers : { "apikey" : "3826527798191617"},
                 url: 'https://cors-anywhere.herokuapp.com/https://freesvgclipart.com/wp-json/clipart/api?page=' + nIndex + '&num=24' +'&query=' + sQuery,
                 dataType: 'json'
             }).success(function (oResponse) {
@@ -259,7 +166,7 @@ var  Ps;
                 }
                 fillTableFromResponse(imgsInfo);
             }).error(function(){
-
+                showLoader(elements, false);
 				container = document.getElementById('scrollable-container-id');
                 container.scrollTop = 0;
                 Ps.update();
@@ -271,7 +178,6 @@ var  Ps;
                 oContainer.append(oParagraph);
 				});
         }
-
 
         $('#search-form-id').submit(function (e) {
             sLastQuery = $('#search-id').val();
