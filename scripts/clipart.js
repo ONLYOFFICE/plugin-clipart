@@ -164,7 +164,6 @@ var  Ps;
                     //loadImgs(oResponse.items[nUrl].pngurl[oResponse.items[0].pngurl.length - 1]);
                     loadImgs(oResponse.items[nUrl].pngurl[0]);
                 }
-                fillTableFromResponse(imgsInfo);
             }).error(function(){
                 showLoader(elements, false);
 				container = document.getElementById('scrollable-container-id');
