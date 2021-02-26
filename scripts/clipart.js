@@ -166,7 +166,7 @@ var  Ps;
                         docImgs.each(function() {
                             $(this).attr("src", "https://openclipart.org" + $(this).attr("src"))
                             })
-                        updateNavigation(current_page, allPages);
+                        updateNavigation(Number(current_page), Number(allPages));
 
                         if (imgCount === 0)
                             showLoader(elements, false);
@@ -182,7 +182,10 @@ var  Ps;
                                 "HTML": this.outerHTML
                                 };
 
-                                imgsInfo.push(imgInfo);
+                                if (imgInfo.width !== 0 && imgInfo.height !== 0)
+                                    imgsInfo.push(imgInfo);
+                                else
+                                    imgCount--;
 
                                 if (imgsInfo.length == imgCount)
                                     fillTableFromResponse(imgsInfo);
@@ -246,7 +249,7 @@ var  Ps;
         }
 
         function loadClipArtPage(nIndex, sQuery) {
-            SendRequest("GET", 'https://cors-anywhere.herokuapp.com/https://openclipart.org/search/?query=' + sQuery + '&p=' + nIndex,"");
+            SendRequest("GET", 'https://onlyoffice-proxy.herokuapp.com/https://openclipart.org/search/?query=' + sQuery + '&p=' + nIndex,"");
         }
 
         $('#search-form-id').submit(function (e) {
