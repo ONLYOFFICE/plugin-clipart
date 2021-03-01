@@ -1,14 +1,10 @@
 var  Ps;
 
 (function(window, undefined) {
-
 	var displayNoneClass = "display-none";
-	var blurClass = "blur";
 	var waitForLoad = false;
 
 	function showLoader(elements, bShow) {
-
-       switchClass(elements.contentHolder, blurClass, bShow);
        switchClass(elements.loader, displayNoneClass, !bShow);
     }
 
