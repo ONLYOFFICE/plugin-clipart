@@ -1,4 +1,5 @@
-var  Ps;
+var Ps;
+var proxy = 'https://onlyoffice-proxy.herokuapp.com/';
 
 (function(window, undefined) {
 	var displayNoneClass = "display-none";
@@ -133,6 +134,7 @@ var  Ps;
 
         function SendRequest(r_method, r_path, r_args)
         {
+            r_path = proxy + r_path;
             var Request = CreateRequest();
 
             if (!Request)
@@ -245,7 +247,7 @@ var  Ps;
         }
 
         function loadClipArtPage(nIndex, sQuery) {
-            SendRequest("GET", 'https://onlyoffice-proxy.herokuapp.com/https://openclipart.org/search/?query=' + sQuery + '&p=' + nIndex,"");
+            SendRequest("GET", 'https://openclipart.org/search/?query=' + sQuery + '&p=' + nIndex,"");
         }
 
         $('#search-form-id').submit(function (e) {

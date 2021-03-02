@@ -10,3 +10,8 @@ The plugin uses [Open Clipart](http://openclipart.org/) is an online media colle
 2. Click on it.
 3. Write the name of the pictures to search.
 4. Click on the picture you like, it will be added to the document.
+
+## Using your proxy service
+
+You can use your proxy like [CORS Anywhere](https://github.com/Rob--W/cors-anywhere/),
+for this change the **proxy** variable in the **./scripts/clipart.js»**.
