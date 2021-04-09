@@ -24,15 +24,6 @@
 	<script type="text/javascript" src="https://onlyoffice.github.io/sdkjs-plugins/v1/plugins-ui.js"></script>
     <script src="./scripts/clipart.js"></script>
     <style>
-        #search-id{
-            border: none;
-            padding: 0px;
-            margin: 0px;
-            height: 20px;
-            width: 100%;
-            outline: none;
-        }
-
         #search-button-id{
             padding: 0;
             border: 0;
@@ -44,20 +35,6 @@
             display: inline-block;
             border-image-width: 0;
 
-        }
-
-        #search-table-container-id{
-            height: 20px;
-            width: 100%;
-			max-width: 100%
-        }
-
-        #search-container-id{
-            border: 1px solid rgb(207, 207, 207);
-            box-shadow: inset 0 1px 2px #eee;
-            margin-left: 20px;
-            margin-right: 20px;
-			width: calc(100% - 40px);
         }
 
         td{
@@ -83,9 +60,7 @@
             border-spacing: 0;
         }
         #main-container-id{
-            background-color: rgb(244, 244, 244);
             height: 100%;
-
             overflow: hidden;
         }
         html, body {
@@ -94,9 +69,6 @@
             overflow-y:hidden;
         }
 
-        #main-search-container-id{
-            background-color: rgb(244, 244, 244);
-        }
         #preview-images-container-id{
             width: auto;
             margin-left: 5px;
@@ -106,7 +78,6 @@
         #pagination-container-id{
             height: 50px;
             position: relative;
-            background-color: rgb(244, 244, 244);
         }
 
         .pagination-button-div{
@@ -169,6 +140,10 @@
             color: #f1f1f1;
             border-radius: 6px;
 		}
+		#button-search-id {
+        	width: 100%;
+        	margin-top: 16px;
+        }
 
     </style>
     <link rel="stylesheet" href="https://onlyoffice.github.io/sdkjs-plugins/v1/plugins.css">
@@ -186,29 +161,14 @@
             </div>
         </div>
     </div>
-    <div id="main-container-id" >
-        <div id="main-search-container-id" style="height: 50px">
-            <form onsubmit="return false" id="search-form-id">
-                <div id="search-container-id" style="position: absolute; top: 10px">
-                    <table id="search-table-container-id" style="height: 20px;">
-                        <tbody>
-                        <tr>
-                            <td id="input-cell-id">
-                                    <input id="search-id" type="text" autocomplete="off">
-                            </td>
-                            <td id="button-cell-id">
-                                <button type="submit" id="search-button-id" class="noselect">
-                                    <img id="search-button-image-id" src="resources/img/search.png" srcset="resources/img/search@2x.png 2x"  alt="submit" style="vertical-align: middle"/>
-                                </button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </form>
+    <div id="main-container-id" style="display:flex; flex-direction: column">
+        <div id="main-search-container-id" style="width: calc(100% - 24px); margin: 12px;">
+            <input id="search-id" class="form-control" type="text" placeholder="Enter search phrase" autocomplete="off" style="width: 100%">
+            <button onсlick="" id="button-search-id" class="btn-text-default">Search</button>
+            <div class="separator horizontal" style="width: 100%; margin-top: 16px;"></div>
         </div>
         <div id="scrollable-container-id" style="position: relative; height: calc(100% - 100px); overflow: hidden">
-            <div id="preview-images-container-id" style="display: block; position: absolute;">
+            <div id="preview-images-container-id" style="display: block; position: absolute; margin-top: 10px;">
             </div>
         </div>
         <div id="pagination-container-id" style=" display: table; width: 100%; text-align: center; ">

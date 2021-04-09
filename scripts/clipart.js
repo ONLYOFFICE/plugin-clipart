@@ -268,7 +268,11 @@ var proxy = 'https://onlyoffice-proxy.herokuapp.com/';
             SendRequest("GET", 'https://openclipart.org/search/?query=' + sQuery + '&p=' + nIndex,"");
         }
 
-        $('#search-form-id').submit(function (e) {
+        $('input').keydown(function(e) {
+            if(e.keyCode === 13)
+                $('#button-search-id').trigger('click');
+        });
+        $('#button-search-id').click(function () {
             sLastQuery = $('#search-id').val();
             if(sLastQuery === ''){
                 sLastQuery = sEmptyQuery;
