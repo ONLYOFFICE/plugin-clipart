@@ -16,7 +16,7 @@
  *
  */
 
-var Ps;
+var Ps1, Ps2;
 var proxy = 'https://onlyoffice-proxy.herokuapp.com/';
 
 (function(window, undefined) {
@@ -107,7 +107,8 @@ var proxy = 'https://onlyoffice-proxy.herokuapp.com/';
 		};
 
 		var container = document.getElementsByClassName ('scrollable-container-id');
-        Ps = new PerfectScrollbar('#scrollable-container-id', {});
+        Ps1 = new PerfectScrollbar('#scrollable-container-id', {});
+        Ps2 = new PerfectScrollbar('#main-container-id', {});
         var nAmount = 20;//Count images on page
         var sLastQuery = 'play';
         var nImageWidth = 90;
@@ -176,7 +177,7 @@ var proxy = 'https://onlyoffice-proxy.herokuapp.com/';
                         var imgCount = docImgs.length;
                         container = document.getElementById('scrollable-container-id');
                         container.scrollTop = 0;
-                        Ps.update();
+                        Ps1.update();
 
                         //setting correct url for each image
                         docImgs.each(function() {
@@ -184,8 +185,16 @@ var proxy = 'https://onlyoffice-proxy.herokuapp.com/';
                             })
                         updateNavigation(Number(current_page), Number(allPages));
 
-                        if (imgCount === 0)
+                        if (imgCount === 0) {
                             showLoader(elements, false);
+                            $('#preview-images-container-id').empty();
+                            $('<div>', {
+                                "class": "no-results",
+                                text: "No results."
+                            }).appendTo('#preview-images-container-id');
+                            updateScroll();
+                            return;
+                        }
 
                         for (var imgIdx = 0; imgIdx < imgCount; imgIdx++)
                         {
@@ -216,7 +225,7 @@ var proxy = 'https://onlyoffice-proxy.herokuapp.com/';
                     {
                         container = document.getElementById('scrollable-container-id');
                         container.scrollTop = 0;
-                        Ps.update();
+                        Ps1.update();
                         updateNavigation(0, 0);
                         var oContainer = $('#preview-images-container-id');
                         oContainer.empty();
@@ -443,8 +452,9 @@ var proxy = 'https://onlyoffice-proxy.herokuapp.com/';
         }
 
         function updateScroll(){
-            Ps.update();
-        }
+            Ps1.update();
+            Ps2.update();
+        };
 
         updateScroll();
         loadClipArtPage(1, sLastQuery);
